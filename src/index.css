@@ -1,83 +1,79 @@
-/* Fondo de cielo con nubes que ocupa toda la pantalla */
-.main-screen {
+/* Fondo de pantalla completa con nubes */
+.main-viewport {
   min-height: 100vh;
   width: 100vw;
-  background: url('https://img.freepik.com/foto-gratis/hermoso-paisaje-nubes-cielo-azul_1127-300.jpg') no-repeat center center fixed;
+  background: url('https://images.unsplash.com/photo-1513002749550-c59d786b8e6c?q=80&w=2000&auto=format&fit=crop') no-repeat center center fixed;
   background-size: cover;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: 'Arial', sans-serif;
+  font-family: 'Arial Black', sans-serif;
 }
 
-/* Tarjeta central gris con transparencia (Glassmorphism) */
-.glass-card {
-  background: rgba(52, 73, 94, 0.8);
-  backdrop-filter: blur(12px);
+/* Tarjeta de cristal oscuro */
+.weather-glass-card {
+  background: rgba(44, 62, 80, 0.85);
+  backdrop-filter: blur(15px);
   padding: 40px;
-  border-radius: 35px;
+  border-radius: 40px;
   width: 450px;
   text-align: center;
   color: white;
-  box-shadow: 0 25px 50px rgba(0,0,0,0.3);
-  border: 1px solid rgba(255,255,255,0.2);
+  box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+  border: 1px solid rgba(255,255,255,0.1);
 }
 
-/* Buscador grande */
-.search-box {
+.search-bar {
   display: flex;
   gap: 10px;
-  margin-bottom: 30px;
+  margin-bottom: 25px;
 }
 
-.search-box input {
+.search-bar input {
   padding: 15px;
   border-radius: 12px;
   border: none;
   flex: 1;
-  font-size: 1.1rem;
+  font-size: 1rem;
 }
 
-.btn-buscar {
-  background: #2ecc71;
+.search-bar button {
+  background: #00e676; /* Verde brillante */
   color: white;
   border: none;
   padding: 15px 25px;
   border-radius: 12px;
   font-weight: bold;
   cursor: pointer;
-  transition: transform 0.2s;
 }
 
-.btn-buscar:hover { transform: scale(1.05); }
-
-/* Sol animado con cara */
-.animated-sun {
-  width: 140px;
-  filter: drop-shadow(0 0 25px #f1c40f);
-  animation: float 3s ease-in-out infinite;
+/* Sol animado gigante */
+.sun-icon-animated {
+  width: 160px;
+  filter: drop-shadow(0 0 30px #f1c40f);
+  animation: floating 3s ease-in-out infinite;
 }
 
-@keyframes float {
+@keyframes floating {
   0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-15px); }
+  50% { transform: translateY(-20px); }
 }
 
-.temp-text {
-  font-size: 5.5rem;
+.temperature {
+  font-size: 6rem;
   font-weight: 900;
-  color: #f39c12;
+  color: #ffb300;
   margin: 10px 0;
 }
 
-.time-text { font-size: 1.1rem; font-weight: bold; margin-bottom: 5px; opacity: 0.9; }
-.city-text { font-size: 2.2rem; margin: 0; }
-.description { text-transform: capitalize; font-size: 1.3rem; margin-bottom: 25px; }
+.local-hour { font-size: 1.2rem; opacity: 0.8; margin-bottom: 5px; }
+.city-title { font-size: 2.5rem; margin: 0; }
+.weather-desc { text-transform: capitalize; font-size: 1.4rem; margin-bottom: 30px; }
 
-.footer-info {
+.bottom-stats {
   display: flex;
   justify-content: space-around;
-  background: rgba(0,0,0,0.2);
-  padding: 15px;
-  border-radius: 20px;
+  background: rgba(0,0,0,0.3);
+  padding: 20px;
+  border-radius: 25px;
 }

@@ -15,7 +15,7 @@ function App() {
       const data = await response.json()
       if (data.cod === 200) {
         setClima(data)
-        // Cálculo de hora local para que no tenga desfase
+        // Cálculo de hora local sin errores
         const ahora = new Date()
         const utc = ahora.getTime() + (ahora.getTimezoneOffset() * 60000)
         const fechaCiudad = new Date(utc + (1000 * data.timezone))
@@ -29,45 +29,45 @@ function App() {
   }
 
   return (
-    <div className="main-screen">
-      <div className="glass-card">
+    <div className="main-viewport">
+      <div className="weather-glass-card">
         <h1 className="title">Estado del Clima</h1>
         
-        <div className="search-box">
+        <div className="search-bar">
           <input 
             type="text" 
-            placeholder="Introduce ciudad..." 
+            placeholder="Escribe una ciudad..." 
             value={ciudad}
             onChange={(e) => setCiudad(e.target.value)}
           />
-          <button className="btn-buscar" onClick={fetchClima}>BUSCAR</button>
+          <button onClick={fetchClima}>BUSCAR</button>
         </div>
 
         {clima && (
-          <div className="weather-content">
-            <p className="time-text">{horaLocal}</p>
-            <h2 className="city-text">{clima.name}, {clima.sys.country}</h2>
+          <div className="result-container">
+            {/* Aquí usamos horaLocal para que desaparezca el error */}
+            <p className="local-hour">{horaLocal}</p>
+            <h2 className="city-title">{clima.name}, {clima.sys.country}</h2>
             
-            <div className="icon-container">
-              {/* Sol con cara animado idéntico al ejemplo */}
+            <div className="visual-block">
               <img 
                 src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20Places/Sun%20with%20Face.png" 
-                alt="sol" 
-                className="animated-sun"
+                alt="sol animado" 
+                className="sun-icon-animated"
               />
-              <p className="temp-text">{Math.round(clima.main.temp)}°C</p>
+              <p className="temperature">{Math.round(clima.main.temp)}°C</p>
             </div>
 
-            <p className="description">{clima.weather[0].description}</p>
+            <p className="weather-desc">{clima.weather[0].description}</p>
             
-            <div className="footer-info">
-              <div className="item">
-                <small>Humedad</small>
-                <p>{clima.main.humidity}%</p>
+            <div className="bottom-stats">
+              <div className="stat-unit">
+                <span>Humedad</span>
+                <strong>{clima.main.humidity}%</strong>
               </div>
-              <div className="item">
-                <small>Viento</small>
-                <p>{clima.wind.speed} m/s</p>
+              <div className="stat-unit">
+                <span>Viento</span>
+                <strong>{clima.wind.speed} m/s</strong>
               </div>
             </div>
           </div>
