@@ -1,81 +1,54 @@
-/* Fondo de nubes realistas idéntico al ejemplo de Vercel */
-.contenedor-principal {
+/* Contenedor con fondos de cielo real */
+.main-container {
   min-height: 100vh;
   width: 100vw;
-  background: url('https://images.unsplash.com/photo-1534088568595-a066f7104211?q=80&w=2000&auto=format&fit=crop') no-repeat center center fixed;
-  background-size: cover;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: 'Arial Black', sans-serif;
+  background-size: cover;
+  background-position: center;
+  position: relative;
 }
 
-/* Tarjeta gris con transparencia */
-.tarjeta-clima {
-  background: rgba(44, 62, 80, 0.8);
+.default-bg { background-image: url('https://images.unsplash.com/photo-1534088568595-a066f7104211?q=80&w=2000'); }
+.sunny-bg { background-image: url('https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?q=80&w=2000'); }
+.cloudy-bg { background-image: url('https://images.unsplash.com/photo-1534088568595-a066f7104211?q=80&w=2000'); }
+.rainy-bg { background-image: url('https://images.unsplash.com/photo-1534274988757-a28bf1f539cf?q=80&w=2000'); }
+
+/* Tarjeta Gris Glassmorphism */
+.glass-card {
+  background: rgba(44, 62, 80, 0.85);
   backdrop-filter: blur(15px);
-  padding: 45px;
+  padding: 40px;
   border-radius: 40px;
-  width: 450px;
+  width: 480px;
   text-align: center;
   color: white;
-  box-shadow: 0 25px 60px rgba(0,0,0,0.5);
+  box-shadow: 0 30px 60px rgba(0,0,0,0.5);
   border: 1px solid rgba(255,255,255,0.1);
+  z-index: 10;
 }
 
-.caja-busqueda {
-  display: flex;
-  gap: 12px;
-  margin-bottom: 30px;
-}
+/* Buscador Estilo Vercel */
+.search-group { display: flex; gap: 10px; margin-bottom: 30px; }
+.search-group input { padding: 18px; border-radius: 12px; border: none; flex: 1; font-size: 1.1rem; }
+.search-group button { background: #00e676; color: white; border: none; padding: 15px 30px; border-radius: 12px; font-weight: bold; cursor: pointer; }
 
-.caja-busqueda input {
-  padding: 15px;
-  border-radius: 12px;
-  border: none;
-  flex: 1;
-  font-size: 1rem;
-}
-
-.boton-buscar {
-  background: #00e676; /* Verde exacto de tu imagen */
-  color: white;
-  border: none;
-  padding: 15px 25px;
-  border-radius: 12px;
-  font-weight: bold;
-  cursor: pointer;
-  box-shadow: 0 5px 15px rgba(0, 230, 118, 0.3);
-}
-
-/* Icono del sol con animación de flotado */
-.icono-sol-gigante {
+/* Animación del Icono */
+.weather-icon-animate {
   width: 180px;
-  filter: drop-shadow(0 0 30px #f1c40f);
-  animation: float 3s ease-in-out infinite;
+  filter: drop-shadow(0 0 20px rgba(255,255,255,0.5));
+  animation: floatEffect 3s ease-in-out infinite;
 }
 
-@keyframes float {
-  0%, 100% { transform: translateY(0) scale(1); }
-  50% { transform: translateY(-15px) scale(1.05); }
+@keyframes floatEffect {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
 }
 
-.temp-valor {
-  font-size: 6.5rem;
-  font-weight: 900;
-  color: #ffb300;
-  margin: -10px 0;
-  text-shadow: 2px 2px 10px rgba(0,0,0,0.2);
-}
+.temp-big { font-size: 6.5rem; font-weight: 900; color: #ffb300; margin: 0; }
+.time-now { font-size: 1.2rem; opacity: 0.8; margin-bottom: 5px; }
+.city-name { font-size: 2.5rem; margin: 0; }
+.weather-desc { text-transform: capitalize; font-size: 1.4rem; margin-bottom: 25px; }
 
-.reloj-digital { font-size: 1.3rem; margin-bottom: 5px; opacity: 0.9; }
-.nombre-ciudad { font-size: 2.8rem; margin: 0; }
-.clima-descripcion { text-transform: capitalize; font-size: 1.5rem; margin-bottom: 30px; }
-
-.bloque-detalles {
-  display: flex;
-  justify-content: space-around;
-  background: rgba(0,0,0,0.25);
-  padding: 20px;
-  border-radius: 25px;
-}
+.info-grid { display: flex; justify-content: space-around; background: rgba(0,0,0,0.3); padding: 20px; border-radius: 20px; }

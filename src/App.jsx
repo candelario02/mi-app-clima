@@ -15,7 +15,6 @@ function App() {
       const data = await response.json()
       if (data.cod === 200) {
         setClima(data)
-        // Cálculo de hora local
         const ahora = new Date()
         const utc = ahora.getTime() + (ahora.getTimezoneOffset() * 60000)
         const fechaCiudad = new Date(utc + (1000 * data.timezone))
@@ -28,48 +27,53 @@ function App() {
     }
   }
 
+  const obtenerFondo = () => {
+    if (!clima) return 'default-bg';
+    const main = clima.weather[0].main.toLowerCase();
+    if (main.includes('clear')) return 'sunny-bg';
+    if (main.includes('rain')) return 'rainy-bg';
+    if (main.includes('cloud')) return 'cloudy-bg';
+    return 'default-bg';
+  };
+
   return (
-    <div className="contenedor-principal">
-      <div className="tarjeta-clima">
-        <h1 className="titulo">Estado del Clima</h1>
+    <div className={`main-container ${obtenerFondo()}`}>
+      {/* Capas de animación reales */}
+      <div className="weather-overlay"></div>
+      
+      <div className="glass-card">
+        <h1 className="main-title">Estado del Clima</h1>
         
-        <div className="caja-busqueda">
+        <div className="search-group">
           <input 
             type="text" 
-            placeholder="Ej: Barcelona" 
+            placeholder="Escribe una ciudad..." 
             value={ciudad}
             onChange={(e) => setCiudad(e.target.value)}
           />
-          <button className="boton-buscar" onClick={fetchClima}>BUSCAR</button>
+          <button onClick={fetchClima}>BUSCAR</button>
         </div>
 
         {clima && (
-          <div className="contenido-clima">
-            {/* Usamos horaLocal aquí para eliminar el error de VS Code */}
-            <p className="reloj-digital">{horaLocal}</p>
-            <h2 className="nombre-ciudad">{clima.name}, {clima.sys.country}</h2>
+          <div className="weather-data">
+            <p className="time-now">{horaLocal}</p>
+            <h2 className="city-name">{clima.name}, {clima.sys.country}</h2>
             
-            <div className="area-visual">
-              {/* Imagen de sol garantizada que no falla */}
+            <div className="visual-weather">
+              {/* Usamos el icono oficial pero con efectos CSS para que brille */}
               <img 
-                src="https://fonts.gstatic.com/s/i/short-term/release/googlestylesheet/sunny/v11/512.png" 
-                alt="Sol animado" 
-                className="icono-sol-gigante"
+                src={`https://openweathermap.org/img/wn/${clima.weather[0].icon}@4x.png`} 
+                alt="icono clima" 
+                className="weather-icon-animate"
               />
-              <p className="temp-valor">{Math.round(clima.main.temp)}°C</p>
+              <p className="temp-big">{Math.round(clima.main.temp)}°C</p>
             </div>
 
-            <p className="clima-descripcion">{clima.weather[0].description}</p>
+            <p className="weather-desc">{clima.weather[0].description}</p>
             
-            <div className="bloque-detalles">
-              <div className="dato">
-                <span>Humedad</span>
-                <strong>{clima.main.humidity}%</strong>
-              </div>
-              <div className="dato">
-                <span>Viento</span>
-                <strong>{clima.wind.speed} m/s</strong>
-              </div>
+            <div className="info-grid">
+              <div className="info-box"><span>Humedad</span><strong>{clima.main.humidity}%</strong></div>
+              <div className="info-box"><span>Viento</span><strong>{clima.wind.speed} m/s</strong></div>
             </div>
           </div>
         )}
