@@ -1,58 +1,70 @@
-.app-wrapper {
+/* Fondos Dinámicos con Imágenes de Cielo Realista */
+.app-container {
   min-height: 100vh;
   width: 100vw;
   display: flex;
   justify-content: center;
   align-items: center;
+  background-size: cover;
+  background-position: center;
+  transition: background 1s ease;
   position: relative;
   overflow: hidden;
-  transition: background 1s ease;
 }
 
-/* Colores de Fondo Dinámicos */
-.sunny { background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%); }
-.clouds { background: linear-gradient(135deg, #bdc3c7 0%, #2c3e50 100%); }
-.rain { background: linear-gradient(135deg, #203a43 0%, #2c5364 100%); }
-.snow { background: linear-gradient(135deg, #e6e9f0 0%, #eef1f5 100%); }
-.default { background: #1e293b; }
+.default-bg { background-image: url('https://img.freepik.com/free-photo/blue-sky-with-clouds_1127-282.jpg'); }
+.sunny-bg { background-image: url('https://img.freepik.com/free-photo/beautiful-blue-sky-cloud-landscape_1127-300.jpg'); }
+.rain-bg { background-image: url('https://img.freepik.com/free-photo/dark-clouds-rain_1127-290.jpg'); }
 
-/* Efecto de Lluvia Animada */
-.rain .weather-particles::after {
-  content: "";
+/* Animación de Lluvia */
+.rain-animation {
   position: absolute;
-  top: -100px; width: 100%; height: 200%;
-  background-image: radial-gradient(circle, #fff 1px, transparent 1px);
-  background-size: 50px 50px;
-  animation: rainDrop 0.5s linear infinite;
+  width: 100%; height: 100%;
+  background: url('https://www.transparenttextures.com/patterns/rain.png');
+  animation: rainMove 0.5s linear infinite;
+  pointer-events: none;
 }
 
-@keyframes rainDrop { from { transform: translateY(0); } to { transform: translateY(100px); } }
+@keyframes rainMove { from { background-position: 0 0; } to { background-position: 0 500px; } }
 
-/* Buscador y Botón Gigante */
-.big-input {
-  padding: 25px; font-size: 1.6rem; border-radius: 25px; border: none; width: 350px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+/* Tarjeta y Buscador Gigante */
+.weather-card {
+  background: rgba(44, 62, 80, 0.75);
+  backdrop-filter: blur(15px);
+  padding: 50px;
+  border-radius: 40px;
+  width: 500px;
+  text-align: center;
+  color: white;
+  box-shadow: 0 25px 50px rgba(0,0,0,0.4);
 }
 
-.big-button {
-  padding: 25px 45px; font-size: 1.4rem; font-weight: 900; background: #00e676;
-  color: white; border: none; border-radius: 25px; cursor: pointer;
-  box-shadow: 0 10px 20px rgba(0, 230, 118, 0.4);
+.search-group input {
+  padding: 20px;
+  font-size: 1.2rem;
+  border-radius: 15px;
+  border: none;
+  width: 60%;
 }
 
-/* El Sol y la Tarjeta */
-.weather-card-dynamic {
-  background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(20px);
-  padding: 50px; border-radius: 45px; width: 500px; text-align: center; color: white;
-  box-shadow: 0 30px 60px rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.3);
+.search-group button {
+  padding: 20px 30px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  background: #00e676;
+  border: none;
+  border-radius: 15px;
+  margin-left: 10px;
+  cursor: pointer;
 }
 
-.sun-bright {
-  filter: drop-shadow(0 0 50px #ffcc00);
-  animation: sunFloat 3s ease-in-out infinite, sunRotate 20s linear infinite;
+.weather-icon-large {
+  width: 200px;
+  filter: drop-shadow(0 0 20px #f1c40f);
+  animation: float 3s ease-in-out infinite;
 }
 
-@keyframes sunFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
-@keyframes sunRotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+@keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
 
-.big-temp-text { font-size: 7rem; font-weight: 900; display: block; }
+.temp-main { font-size: 7rem; font-weight: 900; color: #ffcc00; margin: 0; }
+.time-display { font-size: 1.2rem; font-weight: bold; opacity: 0.8; }

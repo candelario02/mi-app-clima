@@ -15,71 +15,73 @@ function App() {
       const data = await response.json()
       if (data.cod === 200) {
         setClima(data)
-        calcularHora(data.timezone)
+        // Cálculo de hora local exacta
+        const ahora = new Date()
+        const utc = ahora.getTime() + (ahora.getTimezoneOffset() * 60000)
+        const fechaCiudad = new Date(utc + (1000 * data.timezone))
+        setHoraLocal(fechaCiudad.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true }))
       } else {
         alert("Ciudad no encontrada")
       }
     } catch (error) {
-      console.error("Error al obtener el clima", error)
+      console.error("Error", error)
     }
   }
 
-  const calcularHora = (timezoneOffset) => {
-    const ahora = new Date()
-    const utc = ahora.getTime() + (ahora.getTimezoneOffset() * 60000)
-    const fechaCiudad = new Date(utc + (1000 * timezoneOffset))
-    setHoraLocal(fechaCiudad.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true }))
-  }
-
-  const obtenerClaseClima = () => {
-    if (!clima) return 'default';
-    const main = clima.weather[0].main.toLowerCase();
-    if (main.includes('clear')) return 'sunny';
-    if (main.includes('cloud')) return 'clouds';
-    if (main.includes('rain')) return 'rain';
-    if (main.includes('snow')) return 'snow';
-    return 'default';
+  const obtenerClaseFondo = () => {
+    if (!clima) return 'app-container default-bg';
+    const estado = clima.weather[0].main.toLowerCase();
+    if (estado.includes('rain')) return 'app-container rain-bg';
+    if (estado.includes('snow')) return 'app-container snow-bg';
+    return 'app-container sunny-bg';
   };
 
   return (
-    <div className={`app-wrapper ${obtenerClaseClima()}`}>
-      {/* Partículas de fondo para lluvia o nieve */}
-      <div className="weather-particles"></div>
+    <div className={obtenerClaseFondo()}>
+      {/* Capa de lluvia o nieve animada fuera del cuadro */}
+      {clima?.weather[0].main.toLowerCase().includes('rain') && <div className="rain-animation"></div>}
       
-      <div className="main-container">
-        <div className="search-section">
+      <div className="weather-card">
+        <h1 className="main-title">Estado del Clima</h1>
+        
+        <div className="search-group">
           <input 
             type="text" 
-            className="big-input"
-            placeholder="¿Qué ciudad buscas?" 
+            placeholder="Ej: Iquitos" 
             value={ciudad}
             onChange={(e) => setCiudad(e.target.value)}
           />
-          <button className="big-button" onClick={fetchClima}>BUSCAR</button>
+          <button onClick={fetchClima}>BUSCAR</button>
         </div>
 
         {clima && (
-          <div className="weather-card-dynamic">
-            <p className="local-time">{horaLocal}</p>
-            <h2 className="city-name">{clima.name}, {clima.sys.country}</h2>
+          <div className="weather-info">
+            <p className="time-display">{horaLocal}</p>
+            <h2 className="city-display">{clima.name}, {clima.sys.country}</h2>
             
-            <div className="main-visual">
+            <div className="visual-section">
               <img 
                 src={clima.weather[0].main === 'Clear' 
                   ? "https://cdn-icons-png.flaticon.com/512/4814/4814268.png" 
                   : `https://openweathermap.org/img/wn/${clima.weather[0].icon}@4x.png`
                 } 
-                alt="clima" 
-                className={clima.weather[0].main === 'Clear' ? "giant-weather-icon sun-bright" : "giant-weather-icon"}
+                alt="weather-status" 
+                className="weather-icon-large"
               />
-              <span className="big-temp-text">{Math.round(clima.main.temp)}°C</span>
+              <p className="temp-main">{Math.round(clima.main.temp)}°C</p>
             </div>
 
-            <p className="weather-desc">{clima.weather[0].description}</p>
+            <p className="desc-text">{clima.weather[0].description}</p>
             
-            <div className="bottom-details">
-              <div className="detail-item"><p>Humedad</p><strong>{clima.main.humidity}%</strong></div>
-              <div className="detail-item"><p>Viento</p><strong>{clima.wind.speed} m/s</strong></div>
+            <div className="stats-grid">
+              <div className="stat-box">
+                <p>Humedad</p>
+                <strong>{clima.main.humidity}%</strong>
+              </div>
+              <div className="stat-box">
+                <p>Viento</p>
+                <strong>{clima.wind.speed} m/s</strong>
+              </div>
             </div>
           </div>
         )}
