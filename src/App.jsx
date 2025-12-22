@@ -4,6 +4,7 @@ import './App.css'
 function App() {
   const [ciudad, setCiudad] = useState('')
   const [clima, setClima] = useState(null)
+  const [horaLocal, setHoraLocal] = useState('')
 
   const fetchClima = async () => {
     const API_KEY = '4f89bdddcd34913cecd9de966eed5f19' 
@@ -14,6 +15,7 @@ function App() {
       const data = await response.json()
       if (data.cod === 200) {
         setClima(data)
+        calcularHora(data.timezone)
       } else {
         alert("Ciudad no encontrada")
       }
@@ -22,51 +24,66 @@ function App() {
     }
   }
 
-  // Define el color del cielo exterior
-  const obtenerCieloExterior = () => {
-    if (!clima) return 'app-main default-sky';
-    const temp = clima.main.temp;
-    const estado = clima.weather[0].main.toLowerCase();
+  // Función para calcular la hora del país buscado
+  const calcularHora = (timezoneOffset) => {
+    const d = new Date()
+    const localTime = d.getTime()
+    const localOffset = d.getTimezoneOffset() * 60000
+    const utc = localTime + localOffset
+    const ciudadTime = utc + (1000 * timezoneOffset)
+    const fechaCiudad = new Date(ciudadTime)
+    setHoraLocal(fechaCiudad.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }))
+  }
 
-    if (temp > 28 || estado.includes('clear')) return 'app-main sunny-sky';
-    if (estado.includes('cloud')) return 'app-main cloudy-sky';
-    if (estado.includes('rain')) return 'app-main rainy-sky';
-    return 'app-main default-sky';
+  const obtenerCieloExterior = () => {
+    if (!clima) return 'app-wrapper cielo-default';
+    const estado = clima.weather[0].main.toLowerCase();
+    if (estado.includes('clear')) return 'app-wrapper cielo-despejado';
+    if (estado.includes('cloud')) return 'app-wrapper cielo-nubes';
+    if (estado.includes('rain')) return 'app-wrapper cielo-lluvia';
+    return 'app-wrapper cielo-default';
   };
 
   return (
     <div className={obtenerCieloExterior()}>
-      <div className="glass-card">
-        <h1>Estado del Clima</h1>
-        <div className="search-bar">
+      <div className="main-container">
+        <div className="search-section">
           <input 
             type="text" 
-            placeholder="Buscar ciudad..." 
+            className="big-input"
+            placeholder="¿Qué ciudad buscas?" 
             value={ciudad}
             onChange={(e) => setCiudad(e.target.value)}
           />
-          <button onClick={fetchClima}>Buscar</button>
+          <button className="big-button" onClick={fetchClima}>BUSCAR</button>
         </div>
 
         {clima && (
-          <div className="weather-data">
-            <h2>{clima.name}, {clima.sys.country}</h2>
+          <div className="weather-card-dynamic">
+            <p className="local-time">Hora local: {horaLocal}</p>
+            <h2 className="city-name">{clima.name}, {clima.sys.country}</h2>
             
-            {/* Imagen ilustrativa dentro del cuadro */}
-            <div className="illustration-container">
+            <div className="main-visual">
+              {/* Icono del sol o clima mucho más grande */}
               <img 
                 src={`https://openweathermap.org/img/wn/${clima.weather[0].icon}@4x.png`} 
-                alt="weather-illustration" 
-                className="big-icon"
+                alt="weather-sun" 
+                className="giant-weather-icon"
               />
+              <span className="big-temp-text">{Math.round(clima.main.temp)}°C</span>
             </div>
 
-            <p className="big-temp">{Math.round(clima.main.temp)}°C</p>
-            <p className="status-text">{clima.weather[0].description}</p>
+            <p className="weather-desc">{clima.weather[0].description}</p>
             
-            <div className="info-grid">
-              <p>Humedad: {clima.main.humidity}%</p>
-              <p>Viento: {clima.wind.speed} m/s</p>
+            <div className="bottom-details">
+              <div className="detail-item">
+                <p>Humedad</p>
+                <strong>{clima.main.humidity}%</strong>
+              </div>
+              <div className="detail-item">
+                <p>Viento</p>
+                <strong>{clima.wind.speed} m/s</strong>
+              </div>
             </div>
           </div>
         )}

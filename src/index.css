@@ -1,50 +1,97 @@
-/* Contenedor Exterior: El Cielo */
-.app-main {
+/* Contenedor principal con cielo animado */
+.app-wrapper {
   min-height: 100vh;
+  width: 100vw;
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: background 1s ease;
+  background-size: 400% 400% !important;
+  animation: moveGradient 15s ease infinite;
 }
 
-.default-sky { background: #1e293b; }
-.sunny-sky { background: linear-gradient(to bottom, #4facfe, #00f2fe); } /* Azul cielo brillante */
-.cloudy-sky { background: linear-gradient(to bottom, #757f9a, #d7dde8); } /* Gris azulado */
-.rainy-sky { background: linear-gradient(to bottom, #2c3e50, #000000); } /* Oscuro */
-
-/* Tarjeta Interior (El cuadrado) */
-.glass-card {
-  background: rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(15px);
-  padding: 30px;
-  border-radius: 25px;
-  width: 90%;
-  max-width: 400px;
-  text-align: center;
-  color: white;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+@keyframes moveGradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
-/* El Icono o Sol dentro del cuadro */
-.big-icon {
-  width: 160px;
-  filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.6));
-  animation: bounce 3s ease-in-out infinite;
+/* Cielos */
+.cielo-despejado { background: linear-gradient(-45deg, #4facfe, #00f2fe, #2575fc); }
+.cielo-nubes { background: linear-gradient(-45deg, #757f9a, #d7dde8, #2c3e50); }
+.cielo-lluvia { background: linear-gradient(-45deg, #1e3c72, #2a5298, #000428); }
+
+/* Input y Botón más grandes y dinámicos */
+.search-section {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 30px;
 }
 
-@keyframes bounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-15px); }
+.big-input {
+  padding: 20px 25px;
+  font-size: 1.2rem;
+  border-radius: 20px;
+  border: none;
+  width: 300px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  outline: none;
 }
 
-.big-temp {
-  font-size: 5rem;
+.big-button {
+  padding: 20px 30px;
+  font-size: 1.1rem;
   font-weight: bold;
-  margin: 10px 0;
-  color: #ffcc00; /* Color sol para la temperatura */
-  text-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+  background: #2ecc71;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: transform 0.3s, background 0.3s;
 }
 
-.status-text { text-transform: capitalize; font-size: 1.2rem; }
-.info-grid { display: flex; justify-content: space-around; font-size: 0.9rem; margin-top: 20px; }
+.big-button:hover {
+  transform: scale(1.1);
+  background: #27ae60;
+}
+
+/* Tarjeta de Clima */
+.weather-card-dynamic {
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(20px);
+  padding: 40px;
+  border-radius: 40px;
+  border: 1px solid rgba(255,255,255,0.3);
+  color: white;
+  text-align: center;
+  box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+}
+
+.giant-weather-icon {
+  width: 180px;
+  filter: drop-shadow(0 0 30px rgba(255, 204, 0, 0.8)); /* Efecto brillo de sol */
+  animation: pulse 3s infinite ease-in-out;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+.big-temp-text {
+  font-size: 6rem;
+  font-weight: 900;
+  display: block;
+  margin-top: -20px;
+}
+
+.local-time { font-weight: bold; opacity: 0.8; margin-bottom: 5px; }
+.city-name { font-size: 2.2rem; margin: 0; }
+.weather-desc { font-size: 1.5rem; text-transform: capitalize; margin-bottom: 25px; }
+
+.bottom-details {
+  display: flex;
+  justify-content: space-around;
+  background: rgba(0,0,0,0.2);
+  padding: 20px;
+  border-radius: 25px;
+}
