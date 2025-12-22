@@ -2,64 +2,77 @@ import { useState } from 'react'
 import './App.css'
 
 function App() {
-  const [ciudad, setCiudad] = useState('')
-  const [clima, setClima] = useState(null)
-  const [horaLocal, setHoraLocal] = useState('')
+  const [inputCiudad, setInputCiudad] = useState('') // Para lo que escribes
+  const [clima, setClima] = useState(null) // Empieza vacío (null)
 
-  const fetchClima = async () => {
-    const API_KEY = '4f89bdddcd34913cecd9de966eed5f19' 
-    const url = `https://api.openweathermap.org/data/2.5/weather?q=${ciudad}&appid=${API_KEY}&units=metric&lang=es`
+  const buscarClima = async () => {
+    if (!inputCiudad) return
     
+    // Reemplaza 'TU_API_KEY' con tu llave de OpenWeatherMap
+    const API_KEY = '4f89bdddcd34913cecd9de966eed5f19' 
+    const url = `https://api.openweathermap.org/data/2.5/weather?q=${inputCiudad}&appid=${API_KEY}&units=metric&lang=es`
+
     try {
       const response = await fetch(url)
       const data = await response.json()
       if (data.cod === 200) {
         setClima(data)
-        const ahora = new Date()
-        const utc = ahora.getTime() + (ahora.getTimezoneOffset() * 60000)
-        const fechaCiudad = new Date(utc + (1000 * data.timezone))
-        setHoraLocal(fechaCiudad.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true }))
-      } else { alert("Ciudad no encontrada") }
-    } catch (error) { console.error("Error", error) }
+      } else {
+        alert("Ciudad no encontrada")
+      }
+    } catch (error) {
+      console.error("Error al obtener datos", error)
+    }
   }
 
   return (
-    <div className={`contenedor-clima ${clima ? clima.weather[0].main.toLowerCase() : 'clear'}`}>
-      {/* Fondo de nubes animadas con CSS */}
-      <div className="nubes-animadas"></div>
-
-      <div className="tarjeta-cristal">
-        <h1 className="titulo-app">Estado del Clima</h1>
-        <div className="buscador">
-          <input type="text" placeholder="iquitos..." value={ciudad} onChange={(e) => setCiudad(e.target.value)} />
-          <button onClick={fetchClima}>BUSCAR</button>
+    <div className="app-viewport">
+      <div className="overlay">
+        {/* BUSCADOR DINÁMICO */}
+        <div className="search-container">
+          <input 
+            type="text" 
+            placeholder="Buscar ciudad..." 
+            value={inputCiudad}
+            onChange={(e) => setInputCiudad(e.target.value)}
+          />
+          <button onClick={buscarClima}>🔍</button>
         </div>
 
-        {clima && (
-          <div className="info-principal">
-            <p className="hora">{horaLocal}</p>
-            <h2 className="ciudad">{clima.name}, {clima.sys.country}</h2>
-            
-            <div className="icono-contenedor">
-              {/* Sol con cara dibujado con CSS para que no falle */}
-              {clima.weather[0].main === 'Clear' ? (
-                <div className="sol-cara-css">
-                  <div className="ojos"></div>
-                  <div className="boca"></div>
-                </div>
-              ) : (
-                <span className="emoji-clima">
-                  {clima.weather[0].main === 'Rain' ? '🌧️' : '☁️'}
-                </span>
-              )}
-              <p className="temp">{Math.round(clima.main.temp)}°C</p>
+        {clima ? (
+          <main className="main-weather">
+            <header className="app-header">
+              <h2>{clima.name}, {clima.sys.country}</h2>
+            </header>
+
+            <div className="hero-temp">
+              <h1>{Math.round(clima.main.temp)}°</h1>
+              <p className="condition">{clima.weather[0].description}</p>
+              <p className="feels-like">
+                Humedad: {clima.main.humidity}% • Viento: {clima.wind.speed} m/s
+              </p>
             </div>
 
-            <p className="desc">{clima.weather[0].description}</p>
-            <div className="detalles">
-              <div><span>Humedad</span><strong>{clima.main.humidity}%</strong></div>
-              <div><span>Viento</span><strong>{clima.wind.speed} m/s</strong></div>
-            </div>
+            <section className="forecast-section">
+              <div className="forecast-card">
+                <h3>🕒 Información Detallada</h3>
+                <div className="forecast-grid">
+                  <div className="day-item active">
+                    <span>Mín</span>
+                    <span className="temps">{Math.round(clima.main.temp_min)}°</span>
+                  </div>
+                  <div className="day-item active">
+                    <span>Máx</span>
+                    <span className="temps">{Math.round(clima.main.temp_max)}°</span>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </main>
+        ) : (
+          <div className="welcome-message">
+            <h2>🌤️ ¡Bienvenido!</h2>
+            <p>Escribe el nombre de una ciudad para ver el clima</p>
           </div>
         )}
       </div>
