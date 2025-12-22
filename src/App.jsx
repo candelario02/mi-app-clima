@@ -24,15 +24,17 @@ function App() {
     }
   }
 
-  // Función para calcular la hora del país buscado
   const calcularHora = (timezoneOffset) => {
-    const d = new Date()
-    const localTime = d.getTime()
-    const localOffset = d.getTimezoneOffset() * 60000
-    const utc = localTime + localOffset
-    const ciudadTime = utc + (1000 * timezoneOffset)
-    const fechaCiudad = new Date(ciudadTime)
-    setHoraLocal(fechaCiudad.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }))
+    // Cálculo preciso para evitar desfases de hora local
+    const ahora = new Date()
+    const utc = ahora.getTime() + (ahora.getTimezoneOffset() * 60000)
+    const fechaCiudad = new Date(utc + (1000 * timezoneOffset))
+    
+    setHoraLocal(fechaCiudad.toLocaleTimeString([], { 
+      hour: '2-digit', 
+      minute: '2-digit',
+      hour12: true 
+    }))
   }
 
   const obtenerCieloExterior = () => {
@@ -60,15 +62,18 @@ function App() {
 
         {clima && (
           <div className="weather-card-dynamic">
-            <p className="local-time">Hora local: {horaLocal}</p>
+            <p className="local-time">{horaLocal}</p>
             <h2 className="city-name">{clima.name}, {clima.sys.country}</h2>
             
             <div className="main-visual">
-              {/* Icono del sol o clima mucho más grande */}
+              {/* Usar sol estético si está despejado, sino el icono de la API */}
               <img 
-                src={`https://openweathermap.org/img/wn/${clima.weather[0].icon}@4x.png`} 
-                alt="weather-sun" 
-                className="giant-weather-icon"
+                src={clima.weather[0].main === 'Clear' 
+                  ? "https://cdn-icons-png.flaticon.com/512/4814/4814268.png" 
+                  : `https://openweathermap.org/img/wn/${clima.weather[0].icon}@4x.png`
+                } 
+                alt="clima" 
+                className={clima.weather[0].main === 'Clear' ? "giant-weather-icon sun-bright" : "giant-weather-icon"}
               />
               <span className="big-temp-text">{Math.round(clima.main.temp)}°C</span>
             </div>
