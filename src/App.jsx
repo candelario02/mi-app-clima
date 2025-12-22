@@ -32,7 +32,7 @@ function App() {
 
   const buscarClima = async () => {
     if (!inputCiudad) return;
-    const API_KEY = 'TU_API_KEY_AQUI'; // Reemplaza esto con tu llave real
+    const API_KEY = '4f89bdddcd34913cecd9de966eed5f19'; // Reemplaza esto con tu llave real
     const url = `https://api.openweathermap.org/data/2.5/weather?q=${inputCiudad}&appid=${API_KEY}&units=metric&lang=es`;
 
     try {
