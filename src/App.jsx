@@ -5,13 +5,14 @@ function App() {
   const [inputCiudad, setInputCiudad] = useState('')
   const [clima, setClima] = useState(null)
   const [horaLocal, setHoraLocal] = useState('')
-  const [fondoActual, setFondoActual] = useState('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=1000')
+  // Definimos el estado inicial con un gradiente neutro
+  const [fondoActual, setFondoActual] = useState('linear-gradient(to bottom, #2c3e50, #000000)')
 
   const fondosClima = {
-    Clear: 'https://images.unsplash.com/photo-1506452305024-9d3f02d1c9b5?q=80&w=1000',
-    Clouds: 'https://images.unsplash.com/photo-1483977399921-6cf3810ff51a?q=80&w=1000',
-    Rain: 'https://images.unsplash.com/photo-1534274988757-a28bf1f539cf?q=80&w=1000',
-    Noche: 'https://images.unsplash.com/photo-1506606401543-2e73709cebb4?q=80&w=1000'
+    Clear: 'linear-gradient(to bottom, #4facfe 0%, #00f2fe 100%)', // Sol
+    Clouds: 'linear-gradient(to bottom, #bdc3c7, #2c3e50)',       // Nubes
+    Rain: 'linear-gradient(to bottom, #4b6cb7, #182848)',        // Lluvia
+    Noche: 'linear-gradient(to bottom, #0f2027, #203a43, #2c5364)' // Noche
   }
 
   const calcularHora = (timezone) => {
@@ -48,7 +49,7 @@ function App() {
         const fecha = calcularHora(data.timezone);
         const horaDigit = fecha.getHours();
 
-        // Lógica de fondo simplificada
+        // Lógica de fondo por hora y estado del tiempo
         if (horaDigit >= 19 || horaDigit <= 6) {
           setFondoActual(fondosClima.Noche);
         } else {
@@ -64,7 +65,8 @@ function App() {
   };
 
   return (
-    <div className="app-viewport" style={{ backgroundImage: `url(${fondoActual})` }}>
+    // Usamos 'background' en lugar de 'backgroundImage' porque son gradientes
+    <div className="app-viewport" style={{ background: fondoActual }}>
       <div className="overlay">
         <div className="search-container animate-fade-down">
           <input 
