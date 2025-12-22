@@ -128,3 +128,57 @@
   text-align: center;
   margin-top: 30vh;
 }
+
+/* --- ANIMACIONES --- */
+
+/* 1. Entrada desde arriba (Buscador) */
+.animate-fade-down {
+  animation: fadeDown 0.8s ease-out;
+}
+
+@keyframes fadeDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* 2. Entrada desde abajo (Datos del clima) */
+.animate-fade-up {
+  animation: fadeUp 1s ease-out;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* 3. Pulso suave para la temperatura */
+.temp-pulse {
+  animation: pulse 2s infinite ease-in-out;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+/* 4. Efecto de bienvenida */
+.animate-pulse-soft {
+  animation: pulseSoft 3s infinite;
+}
+
+@keyframes pulseSoft {
+  0%, 100% { opacity: 0.8; }
+  50% { opacity: 1; }
+}
+
+/* Estilo para la hora local */
+.local-time {
+  background: rgba(0, 0, 0, 0.3);
+  padding: 5px 15px;
+  border-radius: 20px;
+  display: inline-block;
+  font-size: 0.9rem;
+  margin-top: 5px;
+  backdrop-filter: blur(5px);
+}
