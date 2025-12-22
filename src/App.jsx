@@ -36,7 +36,7 @@ function App() {
     setCargando(true)
     
     // RECUERDA: Debes poner tu API KEY real aquí para que funcione
-    const API_KEY = 'TU_API_KEY_AQUI' 
+    const API_KEY = '4f89bdddcd34913cecd9de966eed5f19' 
     const url = `https://api.openweathermap.org/data/2.5/weather?q=${inputCiudad}&appid=${API_KEY}&units=metric&lang=es`
 
     try {
