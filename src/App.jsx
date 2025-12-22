@@ -25,29 +25,27 @@ function App() {
   }
 
   const calcularHora = (timezoneOffset) => {
-    // Cálculo preciso para evitar desfases de hora local
     const ahora = new Date()
     const utc = ahora.getTime() + (ahora.getTimezoneOffset() * 60000)
     const fechaCiudad = new Date(utc + (1000 * timezoneOffset))
-    
-    setHoraLocal(fechaCiudad.toLocaleTimeString([], { 
-      hour: '2-digit', 
-      minute: '2-digit',
-      hour12: true 
-    }))
+    setHoraLocal(fechaCiudad.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true }))
   }
 
-  const obtenerCieloExterior = () => {
-    if (!clima) return 'app-wrapper cielo-default';
-    const estado = clima.weather[0].main.toLowerCase();
-    if (estado.includes('clear')) return 'app-wrapper cielo-despejado';
-    if (estado.includes('cloud')) return 'app-wrapper cielo-nubes';
-    if (estado.includes('rain')) return 'app-wrapper cielo-lluvia';
-    return 'app-wrapper cielo-default';
+  const obtenerClaseClima = () => {
+    if (!clima) return 'default';
+    const main = clima.weather[0].main.toLowerCase();
+    if (main.includes('clear')) return 'sunny';
+    if (main.includes('cloud')) return 'clouds';
+    if (main.includes('rain')) return 'rain';
+    if (main.includes('snow')) return 'snow';
+    return 'default';
   };
 
   return (
-    <div className={obtenerCieloExterior()}>
+    <div className={`app-wrapper ${obtenerClaseClima()}`}>
+      {/* Partículas de fondo para lluvia o nieve */}
+      <div className="weather-particles"></div>
+      
       <div className="main-container">
         <div className="search-section">
           <input 
@@ -66,7 +64,6 @@ function App() {
             <h2 className="city-name">{clima.name}, {clima.sys.country}</h2>
             
             <div className="main-visual">
-              {/* Usar sol estético si está despejado, sino el icono de la API */}
               <img 
                 src={clima.weather[0].main === 'Clear' 
                   ? "https://cdn-icons-png.flaticon.com/512/4814/4814268.png" 
@@ -81,14 +78,8 @@ function App() {
             <p className="weather-desc">{clima.weather[0].description}</p>
             
             <div className="bottom-details">
-              <div className="detail-item">
-                <p>Humedad</p>
-                <strong>{clima.main.humidity}%</strong>
-              </div>
-              <div className="detail-item">
-                <p>Viento</p>
-                <strong>{clima.wind.speed} m/s</strong>
-              </div>
+              <div className="detail-item"><p>Humedad</p><strong>{clima.main.humidity}%</strong></div>
+              <div className="detail-item"><p>Viento</p><strong>{clima.wind.speed} m/s</strong></div>
             </div>
           </div>
         )}
