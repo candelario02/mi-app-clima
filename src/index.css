@@ -1,34 +1,50 @@
-.weather-container {
-  max-width: 400px;
-  margin: 50px auto;
-  text-align: center;
-  font-family: 'Inter', sans-serif;
-  background: #1e293b;
+/* Contenedor Exterior: El Cielo */
+.app-main {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background 1s ease;
+}
+
+.default-sky { background: #1e293b; }
+.sunny-sky { background: linear-gradient(to bottom, #4facfe, #00f2fe); } /* Azul cielo brillante */
+.cloudy-sky { background: linear-gradient(to bottom, #757f9a, #d7dde8); } /* Gris azulado */
+.rainy-sky { background: linear-gradient(to bottom, #2c3e50, #000000); } /* Oscuro */
+
+/* Tarjeta Interior (El cuadrado) */
+.glass-card {
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(15px);
   padding: 30px;
-  border-radius: 20px;
+  border-radius: 25px;
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
   color: white;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.2);
 }
 
-input {
-  padding: 10px;
-  border-radius: 8px;
-  border: none;
-  width: 70%;
-  margin-right: 10px;
+/* El Icono o Sol dentro del cuadro */
+.big-icon {
+  width: 160px;
+  filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.6));
+  animation: bounce 3s ease-in-out infinite;
 }
 
-button {
-  padding: 10px 15px;
-  background: #2ecc71;
-  border: none;
-  border-radius: 8px;
-  color: #121418;
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-15px); }
+}
+
+.big-temp {
+  font-size: 5rem;
   font-weight: bold;
-  cursor: pointer;
+  margin: 10px 0;
+  color: #ffcc00; /* Color sol para la temperatura */
+  text-shadow: 2px 2px 10px rgba(0,0,0,0.2);
 }
 
-.weather-info { margin-top: 30px; }
-.temp { font-size: 4rem; font-weight: bold; margin: 10px 0; color: #2ecc71; }
-.desc { text-transform: capitalize; color: #94a3b8; font-size: 1.2rem; }
-.details { display: flex; justify-content: space-around; margin-top: 20px; font-size: 0.9rem; }
+.status-text { text-transform: capitalize; font-size: 1.2rem; }
+.info-grid { display: flex; justify-content: space-around; font-size: 0.9rem; margin-top: 20px; }
