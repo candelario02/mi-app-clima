@@ -20,37 +20,47 @@ function App() {
     return new Date(utc + (1000 * timezone));
   }
 
-  // Actualiza el reloj cada segundo automáticamente
   useEffect(() => {
     if (!clima) return;
     const intervalo = setInterval(() => {
       const fecha = calcularHora(clima.timezone);
-      setHoraLocal(fecha.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true }));
+      setHoraLocal(fecha.toLocaleTimeString('es-ES', { 
+        hour: '2-digit', 
+        minute: '2-digit', 
+        second: '2-digit', 
+        hour12: true 
+      }));
     }, 1000);
     return () => clearInterval(intervalo);
   }, [clima]);
 
   const buscarClima = async () => {
     if (!inputCiudad) return;
-    const API_KEY = '4f89bdddcd34913cecd9de966eed5f19'; // Reemplaza esto con tu llave real
+    const API_KEY = '4f89bdddcd34913cecd9de966eed5f19'; 
     const url = `https://api.openweathermap.org/data/2.5/weather?q=${inputCiudad}&appid=${API_KEY}&units=metric&lang=es`;
 
     try {
       const response = await fetch(url);
       const data = await response.json();
+      
       if (data.cod === 200) {
         setClima(data);
         const fecha = calcularHora(data.timezone);
         const horaDigit = fecha.getHours();
-        
-        // Lógica de fondo: Noche o Clima
+
+        // Lógica de fondo simplificada
         if (horaDigit >= 19 || horaDigit <= 6) {
           setFondoActual(fondosClima.Noche);
         } else {
-          setFondoActual(fondosClima[data.weather[0].main] || fondosClima.Clear);
+          const estadoClima = data.weather[0].main;
+          setFondoActual(fondosClima[estadoClima] || fondosClima.Clear);
         }
-      } else { alert("Ciudad no encontrada"); }
-    } catch (error) { console.error(error); }
+      } else { 
+        alert("Ciudad no encontrada"); 
+      }
+    } catch (error) { 
+      console.error(error); 
+    }
   };
 
   return (
