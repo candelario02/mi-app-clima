@@ -15,7 +15,7 @@ function App() {
       const data = await response.json()
       if (data.cod === 200) {
         setClima(data)
-        // Cálculo de hora local exacta
+        // Cálculo de hora local para que no tenga desfase
         const ahora = new Date()
         const utc = ahora.getTime() + (ahora.getTimezoneOffset() * 60000)
         const fechaCiudad = new Date(utc + (1000 * data.timezone))
@@ -28,59 +28,46 @@ function App() {
     }
   }
 
-  const obtenerClaseFondo = () => {
-    if (!clima) return 'app-container default-bg';
-    const estado = clima.weather[0].main.toLowerCase();
-    if (estado.includes('rain')) return 'app-container rain-bg';
-    if (estado.includes('snow')) return 'app-container snow-bg';
-    return 'app-container sunny-bg';
-  };
-
   return (
-    <div className={obtenerClaseFondo()}>
-      {/* Capa de lluvia o nieve animada fuera del cuadro */}
-      {clima?.weather[0].main.toLowerCase().includes('rain') && <div className="rain-animation"></div>}
-      
-      <div className="weather-card">
-        <h1 className="main-title">Estado del Clima</h1>
+    <div className="main-screen">
+      <div className="glass-card">
+        <h1 className="title">Estado del Clima</h1>
         
-        <div className="search-group">
+        <div className="search-box">
           <input 
             type="text" 
-            placeholder="Ej: Iquitos" 
+            placeholder="Introduce ciudad..." 
             value={ciudad}
             onChange={(e) => setCiudad(e.target.value)}
           />
-          <button onClick={fetchClima}>BUSCAR</button>
+          <button className="btn-buscar" onClick={fetchClima}>BUSCAR</button>
         </div>
 
         {clima && (
-          <div className="weather-info">
-            <p className="time-display">{horaLocal}</p>
-            <h2 className="city-display">{clima.name}, {clima.sys.country}</h2>
+          <div className="weather-content">
+            <p className="time-text">{horaLocal}</p>
+            <h2 className="city-text">{clima.name}, {clima.sys.country}</h2>
             
-            <div className="visual-section">
+            <div className="icon-container">
+              {/* Sol con cara animado idéntico al ejemplo */}
               <img 
-                src={clima.weather[0].main === 'Clear' 
-                  ? "https://cdn-icons-png.flaticon.com/512/4814/4814268.png" 
-                  : `https://openweathermap.org/img/wn/${clima.weather[0].icon}@4x.png`
-                } 
-                alt="weather-status" 
-                className="weather-icon-large"
+                src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20Places/Sun%20with%20Face.png" 
+                alt="sol" 
+                className="animated-sun"
               />
-              <p className="temp-main">{Math.round(clima.main.temp)}°C</p>
+              <p className="temp-text">{Math.round(clima.main.temp)}°C</p>
             </div>
 
-            <p className="desc-text">{clima.weather[0].description}</p>
+            <p className="description">{clima.weather[0].description}</p>
             
-            <div className="stats-grid">
-              <div className="stat-box">
-                <p>Humedad</p>
-                <strong>{clima.main.humidity}%</strong>
+            <div className="footer-info">
+              <div className="item">
+                <small>Humedad</small>
+                <p>{clima.main.humidity}%</p>
               </div>
-              <div className="stat-box">
-                <p>Viento</p>
-                <strong>{clima.wind.speed} m/s</strong>
+              <div className="item">
+                <small>Viento</small>
+                <p>{clima.wind.speed} m/s</p>
               </div>
             </div>
           </div>
