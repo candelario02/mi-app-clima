@@ -15,7 +15,7 @@ function App() {
       const data = await response.json()
       if (data.cod === 200) {
         setClima(data)
-        // Cálculo de hora local sin errores
+        // Cálculo de hora local
         const ahora = new Date()
         const utc = ahora.getTime() + (ahora.getTimezoneOffset() * 60000)
         const fechaCiudad = new Date(utc + (1000 * data.timezone))
@@ -29,43 +29,44 @@ function App() {
   }
 
   return (
-    <div className="main-viewport">
-      <div className="weather-glass-card">
-        <h1 className="title">Estado del Clima</h1>
+    <div className="contenedor-principal">
+      <div className="tarjeta-clima">
+        <h1 className="titulo">Estado del Clima</h1>
         
-        <div className="search-bar">
+        <div className="caja-busqueda">
           <input 
             type="text" 
-            placeholder="Escribe una ciudad..." 
+            placeholder="Ej: Barcelona" 
             value={ciudad}
             onChange={(e) => setCiudad(e.target.value)}
           />
-          <button onClick={fetchClima}>BUSCAR</button>
+          <button className="boton-buscar" onClick={fetchClima}>BUSCAR</button>
         </div>
 
         {clima && (
-          <div className="result-container">
-            {/* Aquí usamos horaLocal para que desaparezca el error */}
-            <p className="local-hour">{horaLocal}</p>
-            <h2 className="city-title">{clima.name}, {clima.sys.country}</h2>
+          <div className="contenido-clima">
+            {/* Usamos horaLocal aquí para eliminar el error de VS Code */}
+            <p className="reloj-digital">{horaLocal}</p>
+            <h2 className="nombre-ciudad">{clima.name}, {clima.sys.country}</h2>
             
-            <div className="visual-block">
+            <div className="area-visual">
+              {/* Imagen de sol garantizada que no falla */}
               <img 
-                src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20Places/Sun%20with%20Face.png" 
-                alt="sol animado" 
-                className="sun-icon-animated"
+                src="https://fonts.gstatic.com/s/i/short-term/release/googlestylesheet/sunny/v11/512.png" 
+                alt="Sol animado" 
+                className="icono-sol-gigante"
               />
-              <p className="temperature">{Math.round(clima.main.temp)}°C</p>
+              <p className="temp-valor">{Math.round(clima.main.temp)}°C</p>
             </div>
 
-            <p className="weather-desc">{clima.weather[0].description}</p>
+            <p className="clima-descripcion">{clima.weather[0].description}</p>
             
-            <div className="bottom-stats">
-              <div className="stat-unit">
+            <div className="bloque-detalles">
+              <div className="dato">
                 <span>Humedad</span>
                 <strong>{clima.main.humidity}%</strong>
               </div>
-              <div className="stat-unit">
+              <div className="dato">
                 <span>Viento</span>
                 <strong>{clima.wind.speed} m/s</strong>
               </div>
