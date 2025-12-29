@@ -1,4 +1,7 @@
-:root { --glass: rgba(255, 255, 255, 0.2); --border: rgba(255, 255, 255, 0.3); }
+:root { 
+  --glass: rgba(255, 255, 255, 0.2); 
+  --border: rgba(255, 255, 255, 0.3); 
+}
 
 .app-viewport {
   width: 100vw; height: 100vh;
@@ -13,44 +16,63 @@
   padding: 40px 20px; display: flex; flex-direction: column; align-items: center;
 }
 
+/* CONTENEDOR DE BÚSQUEDA */
 .search-container {
   display: flex;
-  flex-direction: column; /* Esto pone el botón debajo del input */
+  flex-direction: column; 
   align-items: center;
-  gap: 15px;            /* Espacio entre el cuadro y el botón */
+  gap: 15px;
   width: 90%;
   max-width: 400px;
   margin: 20px auto;
 }
 
+/* CUADRO DE TEXTO CORREGIDO */
 .search-container input {
-  width: 100%;           /* Ocupa todo el ancho del contenedor */
+  width: 100%;
   padding: 15px 20px;
   border-radius: 30px;
-  border: none;
+  border: 2px solid transparent;
   font-size: 16px;
-  background: rgba(255, 255, 255, 0.9);
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  
+  /* Arreglo de contraste: Fondo claro con letras oscuras */
+  background: rgba(255, 255, 255, 0.95);
+  color: #1a1a1a !important; /* Fuerza el color oscuro para ver lo que escribes */
+  
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  outline: none;
+  transition: all 0.3s ease;
 }
 
+.search-container input:focus {
+  border: 2px solid #ffffff;
+  background: #ffffff;
+}
+
+/* BOTÓN BUSCAR CORREGIDO */
 .search-container button {
-  width: 180px;          /* Botón más ancho y elegante debajo */
+  width: 180px;
   padding: 12px;
   border-radius: 25px;
   border: none;
-  background-color: #ffffff;
-  color: #333;
+  background-color: #1a1a1a; /* Botón oscuro para que resalte del fondo */
+  color: #ffffff;            /* Texto blanco */
   font-weight: bold;
   cursor: pointer;
-  transition: transform 0.2s;
+  transition: transform 0.2s, background 0.2s;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
 }
 
 .search-container button:active {
-  transform: scale(0.95); /* Efecto de pulsado */
+  transform: scale(0.95);
 }
 
+/* RESTO DEL DISEÑO */
 .hero-temp { text-align: center; margin-top: 5vh; }
-.hero-temp h1 { font-size: 8rem; margin: 0; font-weight: 300; text-shadow: 0 10px 20px rgba(0,0,0,0.2); }
+.hero-temp h1 { 
+  font-size: 8rem; margin: 0; font-weight: 300; 
+  text-shadow: 0 10px 20px rgba(0,0,0,0.2); 
+}
 
 .local-time-badge {
   background: var(--glass); padding: 8px 20px; border-radius: 20px;
@@ -70,8 +92,25 @@
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.detail-item span { font-size: 0.7rem; text-transform: uppercase; opacity: 0.8; }
+.detail-item span { 
+  font-size: 0.7rem; text-transform: uppercase; opacity: 0.8; 
+  letter-spacing: 1px;
+}
+
 .detail-item p { font-size: 1.1rem; margin: 5px 0 0 0; font-weight: 600; }
+
+/* DISEÑO RESPONSIVO */
+@media (max-width: 480px) {
+  .details-grid {
+    grid-template-columns: 1fr;
+  }
+  .hero-temp h1 {
+    font-size: 6rem;
+  }
+  .search-container {
+    width: 100%;
+  }
+}
 
 /* ANIMACIONES */
 .animate-fade-down { animation: fD 0.8s ease-out; }
@@ -81,19 +120,3 @@
 @keyframes fD { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes fU { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes p { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.03); } }
-
-/* Añade esto al final de tu App.css si quieres que se vea bien en celulares */
-@media (max-width: 480px) {
-  .details-grid {
-    grid-template-columns: 1fr; /* Una sola columna en pantallas pequeñas */
-  }
-  .hero-temp h1 {
-    font-size: 6rem; /* Reducir un poco el tamaño del número */
-  }
-}
-.detail-item span {
-  font-size: 0.7rem;
-  text-transform: uppercase; /* Esto pondrá "SENSACIÓN", "HUMEDAD", etc., en mayúsculas */
-  letter-spacing: 1px;
-  opacity: 0.8;
-}
