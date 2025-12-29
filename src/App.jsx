@@ -50,11 +50,15 @@ function App() {
     <div className="app-viewport" style={{ background: fondoActual }}>
       <div className="overlay">
         <div className="search-container animate-fade-down">
-          <input type="text" placeholder="Buscar ciudad..." value={inputCiudad} 
-            onChange={(e) => setInputCiudad(e.target.value)} 
-            onKeyDown={(e) => e.key === 'Enter' && buscarClima()} />
-          <button onClick={buscarClima}>🔍</button>
-        </div>
+  <input 
+    type="text" 
+    placeholder="Buscar ciudad..." 
+    value={inputCiudad} 
+    onChange={(e) => setInputCiudad(e.target.value)} 
+    onKeyDown={(e) => e.key === 'Enter' && buscarClima()} 
+  />
+  <button onClick={buscarClima}>Buscar Clima</button>
+</div>
 
         {clima && (
           <main className="main-weather animate-fade-up">
