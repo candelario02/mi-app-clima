@@ -68,3 +68,9 @@
     font-size: 6rem; /* Reducir un poco el tamaño del número */
   }
 }
+.detail-item span {
+  font-size: 0.7rem;
+  text-transform: uppercase; /* Esto pondrá "SENSACIÓN", "HUMEDAD", etc., en mayúsculas */
+  letter-spacing: 1px;
+  opacity: 0.8;
+}
