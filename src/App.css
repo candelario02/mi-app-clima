@@ -16,14 +16,25 @@
 .search-container { display: flex; gap: 10px; margin-bottom: 50px; }
 
 .search-container input {
-  background: var(--glass); border: 1px solid var(--border);
-  padding: 12px 25px; border-radius: 30px; color: white;
-  backdrop-filter: blur(10px); width: 280px; outline: none;
+  flex: 1;             /* El input toma todo el espacio sobrante */
+  padding: 12px 15px;
+  border-radius: 25px; /* Bordes redondeados como en PsicoBienestar */
+  border: none;
+  outline: none;
+  font-size: 16px;     /* Evita el zoom automático en iPhones */
 }
 
 .search-container button {
-  background: white; border: none; width: 45px; height: 45px;
-  border-radius: 50%; cursor: pointer;
+  padding: 12px;
+  border-radius: 50%;  /* Botón circular para la lupa */
+  width: 45px;
+  height: 45px;
+  border: none;
+  cursor: pointer;
+  background: white;   /* O el color que prefieras */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .hero-temp { text-align: center; margin-top: 5vh; }
