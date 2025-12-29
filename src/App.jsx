@@ -79,23 +79,39 @@ function App() {
           <button onClick={buscarClima}>🔍</button>
         </div>
 
-        {clima ? (
-          <main className="main-weather animate-fade-up">
-            <div className="header-info">
-              <h2>{clima.name}, {clima.sys.country}</h2>
-              <p className="local-time-badge">🕒 Hora local: {horaLocal}</p>
-            </div>
-            <div className="hero-temp">
-              <h1 className="temp-pulse">{Math.round(clima.main.temp)}°</h1>
-              <p className="condition">{clima.weather[0].description}</p>
-            </div>
-          </main>
-        ) : (
-          <div className="welcome-message animate-pulse-soft">
-            <h2>🌤️ ¡Hola Candelario!</h2>
-            <p>Busca una ciudad para ver su clima y hora exacta.</p>
-          </div>
-        )}
+       {clima && (
+  <main className="main-weather animate-fade-up">
+    <div className="header-info">
+      <h2>{clima.name}, {clima.sys.country}</h2>
+      <p className="local-time-badge">🕒 {horaLocal}</p>
+    </div>
+
+    <div className="hero-temp">
+      <h1 className="temp-pulse">{Math.round(clima.main.temp)}°</h1>
+      <p className="condition">{clima.weather[0].description}</p>
+    </div>
+
+    {/* ESTA ES LA PARTE ÚTIL: Panel de detalles */}
+    <div className="details-grid">
+      <div className="detail-item">
+        <span>Sensación</span>
+        <p>{Math.round(clima.main.feels_like)}°</p>
+      </div>
+      <div className="detail-item">
+        <span>Humedad</span>
+        <p>{clima.main.humidity}%</p>
+      </div>
+      <div className="detail-item">
+        <span>Viento</span>
+        <p>{clima.wind.speed} m/s</p>
+      </div>
+      <div className="detail-item">
+        <span>Mín / Máx</span>
+        <p>{Math.round(clima.main.temp_min)}° / {Math.round(clima.main.temp_max)}°</p>
+      </div>
+    </div>
+  </main>
+)}
       </div>
     </div>
   );
