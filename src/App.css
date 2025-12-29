@@ -32,40 +32,43 @@
   width: 100%;
   padding: 15px 20px;
   border-radius: 30px;
-  border: none;
+  border: 2px solid transparent;
   font-size: 16px;
   
-  /* --- CAMBIO CLAVE AQUÍ --- */
-  background: white;        /* Fondo blanco sólido */
-  color: #333333 !important; /* TEXTO OSCURO para que se vea lo que escribes */
-  /* ------------------------- */
+  /* Arreglo de contraste: Letras oscuras sobre fondo blanco */
+  background: white; 
+  color: #1a1a1a !important; /* Ahora sí verás lo que escribes */
   
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
   outline: none;
+  transition: all 0.3s ease;
 }
 
-/* Para que el texto de ayuda "Buscar ciudad..." también se vea gris */
+.search-container input:focus {
+  border: 2px solid #00d1b2; /* Brillo turquesa al escribir */
+}
+
 .search-container input::placeholder {
   color: #888888;
 }
 
-.search-container input:focus {
-  border: 2px solid #ffffff;
-  background: #ffffff;
-}
-
-/* BOTÓN BUSCAR CORREGIDO */
+/* BOTÓN BUSCAR ACTUALIZADO (TURQUESA) */
 .search-container button {
   width: 180px;
   padding: 12px;
   border-radius: 25px;
   border: none;
-  background-color: #1a1a1a; /* Botón oscuro para que resalte del fondo */
-  color: #ffffff;            /* Texto blanco */
+  background-color: #00d1b2; /* Color turquesa para que resalte */
+  color: #ffffff;
   font-weight: bold;
   cursor: pointer;
-  transition: transform 0.2s, background 0.2s;
+  transition: transform 0.2s, background 0.2s, box-shadow 0.2s;
   box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.search-container button:hover {
+  background-color: #00bfa5;
+  transform: translateY(-2px);
 }
 
 .search-container button:active {
@@ -111,9 +114,6 @@
   }
   .hero-temp h1 {
     font-size: 6rem;
-  }
-  .search-container {
-    width: 100%;
   }
 }
 
